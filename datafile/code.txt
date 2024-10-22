@@ -1,0 +1,29 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import openpyxl as xl
+import os
+os.chdir('C:/Users/pc/PycharmProjects/PandasProject1')
+pd.set_option('display.max_columns', None)
+#DATA VISUALIZATION - CALIFORNIA CITIES
+cities = pd.read_csv('C:/Users/pc/PycharmProjects/PandasProject1/california_cities.csv')
+#print(cities)
+
+lat, long = cities['latd'], cities['longd'] # Kinh độ = longd, vĩ độ = latd
+population, area = cities['population_total'], cities['area_total_km2']
+plt.figure(figsize = (10,6))
+plt.scatter(long, lat, c = np.log10(population),linewidths = 0, cmap = 'plasma', sizes = area, alpha = 0.4)
+plt.axis('equal')
+plt.xlabel('Kinh độ')
+plt.ylabel('Vĩ độ')
+plt.title('Bản đồ tiểu bang California')
+plt.colorbar(label = 'log$_{10}$(population)')
+plt.clim(3,7)
+
+# Create a legend for cities size
+area_range = [1,10, 50, 100, 300, 500, 1000]
+for area in area_range:
+    plt.scatter([], [], s = area, c = 'k', alpha = 0.4, label = str(area) + 'km${2}$',)
+plt.legend(title = 'City area', labelspacing = 1.5)
+
+plt.show()
